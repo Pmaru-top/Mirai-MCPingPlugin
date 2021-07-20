@@ -33,9 +33,9 @@ public class OwnerFriendCmd extends SimpleListenerHost {
                 String bArgs = args[2];
                 if (Util.isBoolean(bArgs)) {
                     plugin.config.setEnable(Boolean.parseBoolean(bArgs));
-                    event.getSubject().sendMessage(plugin.name + "enableÒÑĞŞ¸ÄÎª" + bArgs);
+                    event.getSubject().sendMessage(plugin.name + "enableå·²ä¿®æ”¹ä¸º" + bArgs);
                 } else {
-                    event.getSubject().sendMessage(plugin.name + "ÀàĞÍÓĞÎó(ĞèÒªboolean)");
+                    event.getSubject().sendMessage(plugin.name + "ç±»å‹æœ‰è¯¯(éœ€è¦boolean)");
                 }
             }
 
@@ -58,7 +58,7 @@ public class OwnerFriendCmd extends SimpleListenerHost {
                             }
                             event.getSubject().sendMessage(builder.build());
                         } else {
-                            event.getSubject().sendMessage(plugin.name + "°ó¶¨·şÎñÆ÷ÁĞ±íÎª¿Õ");
+                            event.getSubject().sendMessage(plugin.name + "ç»‘å®šæœåŠ¡å™¨åˆ—è¡¨ä¸ºç©º");
                         }
                     }
 
@@ -68,58 +68,58 @@ public class OwnerFriendCmd extends SimpleListenerHost {
 
                         //1.group 2.cmd 3.host
                         if (plugin.config.addBindServer(num, args[3], args[4])) {
-                            event.getSubject().sendMessage(plugin.name + "ÒÑ½« " + args[4] + " °ó¶¨µ½ " + num);
+                            event.getSubject().sendMessage(plugin.name + "å·²å°† " + args[4] + " ç»‘å®šåˆ° " + num);
                         } else {
-                            event.getSubject().sendMessage(plugin.name + num + "ÒÑ°ó¶¨,ÎŞĞèÖØ¸´°ó¶¨");
+                            event.getSubject().sendMessage(plugin.name + num + "å·²ç»‘å®š,æ— éœ€é‡å¤ç»‘å®š");
                         }
                     }
 
                     if (msg.equalsIgnoreCase("/bindserver remove all")) {
                         int count = plugin.config.removeAllBindServer();
-                        event.getSubject().sendMessage(plugin.name + "ÒÑÇå¿ÕËùÓĞ°ó¶¨·şÎñÆ÷(" + count + "¸ö)");
+                        event.getSubject().sendMessage(plugin.name + "å·²æ¸…ç©ºæ‰€æœ‰ç»‘å®šæœåŠ¡å™¨(" + count + "ä¸ª)");
                     }else if (msg.toLowerCase().startsWith("/bindserver remove ")) {
                         String[] args = msg.split(" ");
                         long num = Long.parseLong(args[2]);
 
                         if (plugin.config.removeBindServer(num)) {
-                            event.getSubject().sendMessage(plugin.name + "ÒÑ½«°ó¶¨ " + num + " µÄ·şÎñÆ÷ÒÆ³ı");
+                            event.getSubject().sendMessage(plugin.name + "å·²å°†ç»‘å®š " + num + " çš„æœåŠ¡å™¨ç§»é™¤");
                         } else {
-                            event.getSubject().sendMessage(plugin.name + num + "Î´°ó¶¨·şÎñÆ÷");
+                            event.getSubject().sendMessage(plugin.name + num + "æœªç»‘å®šæœåŠ¡å™¨");
                         }
                     }
 
                     if (msg.toLowerCase().startsWith("/by owner add ")) {
                         String[] args = msg.split(" ");
                         long num = Long.parseLong(args[3]);
-                        if (plugin.config.addOwner(num)) event.getSubject().sendMessage(plugin.name + "ÒÑ½«" + num + "Ìí¼ÓÎªÖ÷ÈË");
-                        else event.getSubject().sendMessage(plugin.name + "Ìí¼ÓÊ§°Ü:" + num + "ÒÑÊÇÖ÷ÈË,ÎŞĞèÖØ¸´Ìí¼Ó");
+                        if (plugin.config.addOwner(num)) event.getSubject().sendMessage(plugin.name + "å·²å°†" + num + "æ·»åŠ ä¸ºä¸»äºº");
+                        else event.getSubject().sendMessage(plugin.name + "æ·»åŠ å¤±è´¥:" + num + "å·²æ˜¯ä¸»äºº,æ— éœ€é‡å¤æ·»åŠ ");
                     }
 
                     if (msg.toLowerCase().startsWith("/by owner remove ")) {
                         String[] args = msg.split(" ");
                         long num = Long.parseLong(args[3]);
-                        if (plugin.config.removeOwner(num)) event.getSubject().sendMessage(plugin.name + "ÒÑ½«" + num + "ÒÆ³ıÖ÷ÈË");
-                        else event.getSubject().sendMessage(plugin.name + "ÒÆ³ıÊ§°Ü:" + num + "²»ÊÇÖ÷ÈË");
+                        if (plugin.config.removeOwner(num)) event.getSubject().sendMessage(plugin.name + "å·²å°†" + num + "ç§»é™¤ä¸»äºº");
+                        else event.getSubject().sendMessage(plugin.name + "ç§»é™¤å¤±è´¥:" + num + "ä¸æ˜¯ä¸»äºº");
                     }
 
-                    if (msg.equalsIgnoreCase("/by owner")) {
+                    if (msg.equalsIgnoreCase("/by owner list")) {
                         StringBuilder sb = new StringBuilder();
                         for (int i = 0; i < plugin.config.getOwner().size(); i++) {
                             sb.append(plugin.config.getOwner().getString(i)).append("\n");
                         }
-                        event.getSubject().sendMessage(plugin.name + "Ö÷ÈË:\n" + sb);
+                        event.getSubject().sendMessage(plugin.name + "ä¸»äºº:\n" + sb);
                     }
 
                     if (msg.toLowerCase().startsWith("/cmd set ")) {
                         String[] args = msg.split(" ");
                         plugin.config.setMcpingCMD(args[2]);
-                        event.getSubject().sendMessage(plugin.name + "mcpingÃüÁîÖ¸ÁîÒÑ¸ü¸ÄÎª:" + args[2]);
+                        event.getSubject().sendMessage(plugin.name + "mcpingå‘½ä»¤æŒ‡ä»¤å·²æ›´æ”¹ä¸º:" + args[2]);
                     }
 
                     if (msg.toLowerCase().startsWith("/reload")) {
                         plugin.config = Config.getConfig(plugin.configFilePath);
                         plugin.typesetText = Util.readText(plugin.typesetFilePath,"GBK");
-                        event.getSubject().sendMessage("ÒÑÍê³ÉÖØÔØ");
+                        event.getSubject().sendMessage("å·²å®Œæˆé‡è½½");
                     }
 
                     if (msg.equalsIgnoreCase("/menu")) event.getSubject().sendMessage(Menu.menu());
@@ -131,9 +131,9 @@ public class OwnerFriendCmd extends SimpleListenerHost {
                 }
             }
         } catch (IOException e) {
-            event.getSubject().sendMessage(plugin.name + "¶ÁĞ´ÅäÖÃÎÄ¼şÊ±Óöµ½ÁË´íÎó" + e);
+            event.getSubject().sendMessage(plugin.name + "è¯»å†™é…ç½®æ–‡ä»¶æ—¶é‡åˆ°äº†é”™è¯¯" + e);
         } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {
-            event.getSubject().sendMessage(plugin.name + "²ÎÊıÊäÈë´íÎó");
+            event.getSubject().sendMessage(plugin.name + "å‚æ•°è¾“å…¥é”™è¯¯");
         }
 
         return ListeningStatus.LISTENING;
