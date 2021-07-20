@@ -42,12 +42,12 @@ public class Util {
         OutputStream out = new FileOutputStream(path);
         String text =
                 "%favicon\n" +
-                        "[ 描述 ] %description\n" +
-                        "[ 版本 ] %version_name(%version_protocol)\n" +
-                        "[ 人数 ] %online_players/%max_players\n" +
-                        "[ 延迟 ] %delay\n" +
-                        "[ 类型 ] %type\n" +
-                        "[ Mod数量 ] %mod_count";
+                        "[ 鎻忚堪 ] %description\n" +
+                        "[ 鐗堟湰 ] %version_name(%version_protocol)\n" +
+                        "[ 浜烘暟 ] %online_players/%max_players\n" +
+                        "[ 寤惰繜 ] %delayms\n" +
+                        "[ 绫诲瀷 ] %type\n" +
+                        "[ Mod鏁伴噺 ] %mod_count";
         out.write(text.getBytes());
         return true;
     }
