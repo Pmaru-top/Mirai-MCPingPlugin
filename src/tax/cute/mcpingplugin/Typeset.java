@@ -15,7 +15,7 @@ public class Typeset {
         this.favicon_bytes = favicon_bytes;
     }
 
-    public static Typeset getTypeset(String host, int port, String typesetText) throws IOException {
+    public static Typeset getTypeset(String host, int port, String typesetText) throws IOException{
         final String favicon = "%favicon";
         final String description = "%description";
         final String version_name = "%version_name";
@@ -32,7 +32,7 @@ public class Typeset {
         boolean sendFavicon = typesetText.contains(favicon);
         byte[] favicon_bytes = null;
         if (sendFavicon) {
-            if (motd.getFavicon() == null) favicon_bytes = Base64.getDecoder().decode(Util.MCSERVERDEFAULTFAVICONBASE64);
+            if(motd.getFavicon().equals("null")) favicon_bytes = Base64.getDecoder().decode(Util.MCSERVERDEFAULTFAVICONBASE64);
             else favicon_bytes = Base64.getDecoder().decode(motd.getFavicon());
         }
 

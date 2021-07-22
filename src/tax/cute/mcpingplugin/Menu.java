@@ -13,7 +13,7 @@ public class Menu {
         return "/by" +
                 "\n绑定服务器等命令需主人权限" +
                 "\n参数:" +
-                "\nowner -- 查看主人列表" +
+                "\nowner list -- 查看主人列表" +
                 "\nowner add <qq号码> -- 添加主人" +
                 "\nowner remove <qq号码> -- 移除主人";
     }
