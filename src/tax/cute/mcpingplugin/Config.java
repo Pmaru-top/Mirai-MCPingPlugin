@@ -3,6 +3,7 @@ package tax.cute.mcpingplugin;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import tax.cute.mcpingplugin.Util.Util;
 
 import java.io.*;
 
@@ -13,20 +14,20 @@ public class Config {
     private JSONArray owner;
     private JSONArray bindServerList;
     private String enable;
-    private String mcpingCMD;
+    private String mcPingCmd;
 
     public Config(
             String path,
             JSONArray owner,
             JSONArray bindServerList,
             String enable,
-            String mcpingCMD
+            String mcPingCmd
     ) {
         this.path = path;
         this.owner = owner;
         this.bindServerList = bindServerList;
         this.enable = enable;
-        this.mcpingCMD = mcpingCMD;
+        this.mcPingCmd = mcPingCmd;
     }
 
     public static Config getConfig(String path) throws IOException {
@@ -37,7 +38,7 @@ public class Config {
         //initialization
         JSONArray owner = new JSONArray();
         String enable = "false";
-        String mcpingCMD = null;
+        String mcPingCmd = null;
         JSONArray bindServer = new JSONArray();
 
         //Read config file text
@@ -76,7 +77,7 @@ public class Config {
 
         if (config.containsKey("CMD")) {
             if (config.get("CMD") instanceof String) {
-                mcpingCMD = config.getString("CMD");
+                mcPingCmd = config.getString("CMD");
             } else {
                 System.err.println(name + "\"Config\\CMD\"Unexpected type");
             }
@@ -104,7 +105,7 @@ public class Config {
             System.err.println(name + "\"BindServer\"Missing");
         }
 
-        return new Config(path, owner, bindServer, enable, mcpingCMD);
+        return new Config(path, owner, bindServer, enable, mcPingCmd);
     }
 
     public static boolean createConfig(String path) {
@@ -117,7 +118,7 @@ public class Config {
 
             JSONObject config = new JSONObject();
             config.put("Enable", "true");
-            config.put("CMD", "/mcping");
+            config.put("CMD", "/mcmotd");
 
             json.put("Owner", owner);
             json.put("BindServer", bindServer);
@@ -141,7 +142,7 @@ public class Config {
         JSONObject json = new JSONObject();
         JSONObject config = new JSONObject();
         config.put("Enable", this.enable);
-        config.put("CMD", this.mcpingCMD);
+        config.put("CMD", this.mcPingCmd);
 
         json.put("Owner", this.owner);
         json.put("Config", config);
@@ -163,8 +164,8 @@ public class Config {
         return this.path;
     }
 
-    public String getMcpingCMD() {
-        return this.mcpingCMD;
+    public String getMcPingCmd() {
+        return this.mcPingCmd;
     }
 
     public JSONArray getOwner() {
@@ -184,8 +185,8 @@ public class Config {
         writeConfig();
     }
 
-    public void setMcpingCMD(String args) throws IOException {
-        this.mcpingCMD = args;
+    public void setMcPingCmd(String args) throws IOException {
+        this.mcPingCmd = args;
         writeConfig();
     }
 
@@ -266,17 +267,5 @@ public class Config {
         this.bindServerList.clear();
         writeConfig();
         return count;
-    }
-
-    public boolean isGroup(long groupNum) {
-        JSONObject server = getServer(groupNum);
-        String num;
-        if (server == null) {
-            return false;
-        }
-            num = server.getString("GroupNum");
-
-        return Long.parseLong(num) == groupNum;
-
     }
 }
