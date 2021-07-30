@@ -1,9 +1,9 @@
 # Mirai-MCPingPlugin
 用Mirai机器人获取MC服务器信息并发送
 
-这是一个做的很屑的[`Mirai`](https://github.com/mamoe/mirai)机器人插件
+这是一个做的很屑的 [`Mirai`](https://github.com/mamoe/mirai) 机器人插件
 
-本`README`适用于`MCPing2.0`
+本`README`适用于`MCPing2.*`
 
 欲使用[`MCPing1.0`](https://github.com/MX233/Mirai-MCPingPlugin/releases/tag/v1.0-Beta-lib) 请翻阅老版本README或[翻阅源码](https://github.com/MX233/Mirai-MCPingPlugin/archive/refs/tags/v1.0-Beta.zip)
 
@@ -11,10 +11,20 @@
 - `获取Minecraft服务器信息`
 - `群绑定服务器`
 
-###笔者的一些话
+### 笔者的一些话
 翻阅1.0源码可以发现 一堆命令堆在一个类里 非常乱
 为此笔者使用了[MrXiaoM/MiraiUtils](https://github.com/MrXiaoM/MiraiUtils) 的命令系统( 非常感谢大佬开源 )
-并重制发布了`MCPing2.0`
+并
+
+重制发布了`MCPing2.0`
+### 注意事项
+如果你使用`中国移动家宽网络`请务必更换`更好的DNS`
+
+(比如`8.8.8.8` `114.114.114.114`)
+
+使用`中国移动家宽网络`默认DNS获取Srv时,若不存在Srv,则会`堵塞`15s
+
+可能导致本插件不可用
 
 # 指令和介绍
 所有指令不分大小写
