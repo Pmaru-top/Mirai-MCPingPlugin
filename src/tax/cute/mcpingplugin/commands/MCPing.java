@@ -79,12 +79,6 @@ public class MCPing extends CommandModel {
                 public void run() {
                     if (be.status == 0 && je.status == 0)
                         group.sendMessage("查询失败 请检测服务器是否开启");
-                    if (je.isAlive() && be.status == 0)
-                        group.sendMessage("查询失败 请检查服务器是否开启");
-                    if (je.isAlive() && be.isAlive())
-                        group.sendMessage("查询失败 请检查服务器是否开启");
-                    je.stop();
-                    be.stop();
                 }
             }, 3000);
         } else if (sendObject instanceof Friend) {
@@ -101,12 +95,6 @@ public class MCPing extends CommandModel {
                 public void run() {
                     if (be.status == 0 && je.status == 0)
                         friend.sendMessage("查询失败 请检测服务器是否开启");
-                    if (je.isAlive() && be.status == 0)
-                        friend.sendMessage("查询失败 请检查服务器是否开启");
-                    if (je.isAlive() && be.isAlive())
-                        friend.sendMessage("查询失败 请检查服务器是否开启");
-                    je.stop();
-                    be.stop();
                 }
             }, 3000);
         }

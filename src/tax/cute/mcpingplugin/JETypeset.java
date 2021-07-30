@@ -33,7 +33,7 @@ public class JETypeset {
         final String type = "%type";
         final String mod_list = "%mod_list";
 
-        MCPing motd = MCPing.getMotd(host, port,2000);
+        MCPing motd = MCPing.getMotd(host, port,2500);
 
         boolean sendFavicon = typesetText.contains(favicon);
         List<String> modList = null;
@@ -41,10 +41,16 @@ public class JETypeset {
             modList = motd.getModList();
         }
         byte[] favicon_bytes = null;
-        if (sendFavicon) {
-            if (motd.getFavicon().equals("null"))
-                favicon_bytes = Base64.getDecoder().decode(Util.MC_SERVER_DEFAULT_FAVICON_BASE64);
-            else favicon_bytes = Base64.getDecoder().decode(motd.getFavicon());
+        try {
+            if (sendFavicon) {
+                if (motd.getFavicon().equals("null"))
+                    favicon_bytes = Base64.getDecoder().decode(Util.MC_SERVER_DEFAULT_FAVICON_BASE64);
+                else {
+                    favicon_bytes = Base64.getDecoder().decode(motd.getFavicon().replace("\n",""));
+                }
+            }
+        } catch (Exception e) {
+            favicon_bytes = Base64.getDecoder().decode(Util.MC_SERVER_DEFAULT_FAVICON_BASE64);
         }
 
         String motdText = typesetText

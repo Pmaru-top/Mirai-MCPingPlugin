@@ -164,7 +164,7 @@ public class BindServer extends CommandModel {
             for (int i = 0; i < array.size(); i++) {
                 count++;
                 JSONObject json = array.getJSONObject(i);
-                builder.add(group.getBot().getId(), "Server" + i, new PlainText(
+                builder.add(group.getBot().getId(), "Server" + (i + 1), new PlainText(
                         "Group:" + json.get("GroupNum") +
                                 "\nCmd:" + json.get("CMD") +
                                 "\nHost:" + json.get("Host")
@@ -193,7 +193,7 @@ public class BindServer extends CommandModel {
             for (int i = 0; i < array.size(); i++) {
                 count++;
                 JSONObject json = array.getJSONObject(i);
-                builder.add(friend.getBot().getId(), "Server" + i, new PlainText(
+                builder.add(friend.getBot().getId(), "Server" + (i + 1), new PlainText(
                         "Group:" + json.get("GroupNum") +
                                 "\nCmd:" + json.get("CMD") +
                                 "\nHost:" + json.get("Host")

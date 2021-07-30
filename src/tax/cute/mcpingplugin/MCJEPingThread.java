@@ -8,7 +8,6 @@ import net.mamoe.mirai.message.data.PlainText;
 import net.mamoe.mirai.utils.ExternalResource;
 import tax.cute.mcpingplugin.Util.Srv;
 import tax.cute.mcpingplugin.Util.Util;
-import top.mrxiaom.miraiutils.CommandListener;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,7 +19,7 @@ public class MCJEPingThread extends Thread {
     Object sendObject;
     public int status = -1;
 
-    public MCJEPingThread(Plugin plugin, String host, int port,Object sendObject) {
+    public MCJEPingThread(Plugin plugin, String host, int port, Object sendObject) {
         this.host = host;
         this.port = port;
         this.sendObject = sendObject;
@@ -35,15 +34,14 @@ public class MCJEPingThread extends Thread {
     public void ping() {
         if (port == -1) port = 25565;
 
-        if(sendObject instanceof Group) {
+        if (sendObject instanceof Group) {
             Group group = (Group) sendObject;
-            Srv srv = Srv.getSrv(host, Util.MC_SRV);
+            Srv srv = Srv.getSrv(host,Util.MC_SRV);
             if (srv != null) {
                 host = srv.getSrvHost();
                 port = srv.getSrvPort();
                 group.sendMessage("检测到存在Srv记录 已自动跳转到\n>>\n" + host + ":" + port);
             }
-
             JETypeset typeset;
             try {
                 //获取信息并排版
