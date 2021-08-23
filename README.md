@@ -3,13 +3,10 @@
 
 这是一个做的很屑的 [`Mirai`](https://github.com/mamoe/mirai) 机器人插件
 
-本`README`适用于`MCPing2.*`
-
-欲使用[`MCPing1.0`](https://github.com/MX233/Mirai-MCPingPlugin/releases/tag/v1.0-Beta-lib) 请翻阅老版本README或[翻阅源码](https://github.com/MX233/Mirai-MCPingPlugin/archive/refs/tags/v1.0-Beta.zip)
+本`README`适用于`MCPing2.0-Beta.3`
 
 # 主要功能
 - `获取Minecraft服务器信息`
-- `群绑定服务器`
 
 ### 笔者的一些话
 翻阅1.0源码可以发现 一堆命令堆在一个类里 非常乱
@@ -42,18 +39,19 @@
 PS:支持`Srv`和`中文域名`
 
 ***
-- `/lp`(主人可用)
+- `/lp`(主人/控制台可用)
      * `list` 获取主人列表
      * `add` `<qq号>` 添加主人
      * `remove` `<qq号>` 移除主人
      
      使用示例:`/lp add 114514`
 
-当机器人没有主人时,向机器人私聊发送:`/getOwner <Pin码>`机器人回复:"你已成为主人",你便获得权限
+`2.0-Beta.3` 移除了PIN码验证
 
-Pin码是什么? Pin码是笔者为了提高用户安全系数新增的功能
+新增了控制台操作,这样就可以直接在控制台`获取` `添加` `移除` 主人啦
 
-Pin码在data\MCPing\Pin.txt 里面文本的数字就是Pin码
+在控制台输入指令时`不需要` 带"/"
+
 ***
 
 - `/enable set <布尔值>`(主人可用)
