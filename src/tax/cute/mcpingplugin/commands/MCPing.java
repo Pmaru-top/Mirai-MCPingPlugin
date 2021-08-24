@@ -25,29 +25,34 @@ public class MCPing extends CommandModel {
     @Override
     public void onCommand(CommandSender sender, SingleMessage[] args) {
         if (!plugin.config.isEnable()) return;
-        if (args.length != 1) return;
-        String host = args[0].contentToString();
-
-        String ip;
-        int port;
-        if (host.contains(":")) {
-            ip = host.split(":")[0];
-            port = Integer.parseInt(host.split(":")[1]);
-        } else {
-            ip = host;
-            port = -1;
-        }
-
-        //ÖĞÎÄÓòÃû×ªÂë
-        ip = Punycode.encodeURL(ip);
 
         if (sender instanceof CommandSenderGroup) {
             CommandSenderGroup senderGroup = (CommandSenderGroup) sender;
             Group group = senderGroup.getGroup();
-            if (args[0].contentToString().equalsIgnoreCase("/mcping")) {
+            if (args[0].contentToString().equalsIgnoreCase("/mcping") || args.length != 1) {
                 group.sendMessage(Util.MENU);
                 return;
             }
+
+            if (args[0].contentToString().isEmpty()) {
+                group.sendMessage("è¯·è¾“å…¥æœ‰æ•ˆhost");
+                return;
+            }
+
+            String host = args[0].contentToString();
+
+            String ip;
+            int port;
+            if (host.contains(":")) {
+                ip = host.split(":")[0];
+                port = Integer.parseInt(host.split(":")[1]);
+            } else {
+                ip = host;
+                port = -1;
+            }
+
+            //ä¸­æ–‡åŸŸåè½¬ç 
+            ip = Punycode.encodeURL(ip);
 
             sendMCPing(plugin, group, ip, port);
         }
@@ -55,10 +60,30 @@ public class MCPing extends CommandModel {
         if (sender instanceof CommandSenderFriend) {
             CommandSenderFriend senderFriend = (CommandSenderFriend) sender;
             Friend friend = senderFriend.getFriend();
-            if (args[0].contentToString().equalsIgnoreCase("/mcping")) {
+            if (args[0].contentToString().equalsIgnoreCase("/mcping") || args.length != 1) {
                 friend.sendMessage(Util.MENU);
                 return;
             }
+
+            if (args[0].contentToString().isEmpty()) {
+                friend.sendMessage("è¯·è¾“å…¥æœ‰æ•ˆhost");
+                return;
+            }
+
+            String host = args[0].contentToString();
+
+            String ip;
+            int port;
+            if (host.contains(":")) {
+                ip = host.split(":")[0];
+                port = Integer.parseInt(host.split(":")[1]);
+            } else {
+                ip = host;
+                port = -1;
+            }
+
+            //ä¸­æ–‡åŸŸåè½¬ç 
+            ip = Punycode.encodeURL(ip);
 
             sendMCPing(plugin, friend, ip, port);
         }
@@ -77,8 +102,8 @@ public class MCPing extends CommandModel {
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    if ((be.status == 0 && je.status == 0) || (be.isAlive() || je.isAlive()))
-                        group.sendMessage("²éÑ¯Ê§°Ü Çë¼ì²é·şÎñÆ÷ÊÇ·ñ¿ªÆô");
+                    if (be.status == 0 && je.status == 0)
+                        group.sendMessage("æŸ¥è¯¢å¤±è´¥ è¯·æ£€æŸ¥æœåŠ¡å™¨æ˜¯å¦å¼€å¯");
                     je.stop();
                     be.stop();
                 }
@@ -95,8 +120,8 @@ public class MCPing extends CommandModel {
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    if ((be.status == 0 && je.status == 0) || (be.isAlive() || je.isAlive()))
-                        friend.sendMessage("²éÑ¯Ê§°Ü Çë¼ì²é·şÎñÆ÷ÊÇ·ñ¿ªÆô");
+                    if (be.status == 0 && je.status == 0)
+                        friend.sendMessage("æŸ¥è¯¢å¤±è´¥ è¯·æ£€æŸ¥æœåŠ¡å™¨æ˜¯å¦å¼€å¯");
                     je.stop();
                     be.stop();
                 }
