@@ -1,6 +1,5 @@
 package tax.cute.mcpingplugin;
 
-import com.alibaba.fastjson.JSONObject;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.ListeningStatus;
@@ -19,13 +18,13 @@ public class SendBindServer extends SimpleListenerHost {
     private ListeningStatus awa(GroupMessageEvent event) {
         if(!plugin.config.isEnable()) return ListeningStatus.LISTENING;
         long groupNum = event.getGroup().getId();
-        JSONObject json = this.plugin.config.getServer(groupNum);
-        if (json != null) {
+        if(!plugin.config.isBindServer(groupNum)) return ListeningStatus.LISTENING;
+        Server server = plugin.config.getServer(groupNum);
             String msg = event.getMessage().contentToString();
             Group group = event.getGroup();
-            String cmd = json.getString("CMD");
+            String cmd = server.getCmd();
             if (msg.equalsIgnoreCase(cmd)) {
-                String host = json.getString("Host");
+                String host = server.getHost();
 
                 String ip;
                 int port;
@@ -41,7 +40,6 @@ public class SendBindServer extends SimpleListenerHost {
                 ip = Punycode.encodeURL(ip);
                 MCPing.sendMCPing(plugin,group,ip,port);
             }
-        }
         return ListeningStatus.LISTENING;
     }
 }

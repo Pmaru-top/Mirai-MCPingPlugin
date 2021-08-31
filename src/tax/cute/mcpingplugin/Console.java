@@ -1,9 +1,9 @@
 package tax.cute.mcpingplugin;
 
-import com.alibaba.fastjson.JSONArray;
 import net.mamoe.mirai.console.command.java.JSimpleCommand;
 
 import java.io.IOException;
+import java.util.List;
 
 public class Console extends JSimpleCommand {
     Plugin plugin;
@@ -46,10 +46,10 @@ public class Console extends JSimpleCommand {
             return;
         }
 
-        JSONArray jsonArray = plugin.config.getOwner();
+        List<Long> owners = plugin.config.getOwner();
         plugin.getLogger().info("Ö÷ÈË:");
-        for (Object obj : jsonArray) {
-            plugin.getLogger().info(String.valueOf(obj));
+        for (Long i:owners) {
+            plugin.getLogger().info(String.valueOf(i));
         }
 
     }

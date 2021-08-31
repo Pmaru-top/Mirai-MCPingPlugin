@@ -7,7 +7,7 @@ import tax.cute.mcpingplugin.BETypeset;
 import tax.cute.mcpingplugin.Config;
 import tax.cute.mcpingplugin.JETypeset;
 import tax.cute.mcpingplugin.Plugin;
-import tax.cute.mcpingplugin.Util.Util;
+import tax.cute.mcpingplugin.util.Util;
 import top.mrxiaom.miraiutils.CommandModel;
 import top.mrxiaom.miraiutils.CommandSender;
 import top.mrxiaom.miraiutils.CommandSenderFriend;
@@ -30,10 +30,10 @@ public class Reload extends CommandModel {
             Group group = senderGroup.getGroup();
             try {
                 plugin.config = Config.getConfig(plugin.config.getPath());
-                BETypeset.createTypesetFile(plugin.BETypesetFilePath);
-                JETypeset.createTypesetFile(plugin.JETypesetFilePath);
-                plugin.JETypesetText = Util.readText(plugin.JETypesetFilePath,"GBK");
-                plugin.BETypesetText = Util.readText(plugin.BETypesetFilePath,"GBK");
+                BETypeset.createTypesetFile(plugin.beTypesetFilePath);
+                JETypeset.createTypesetFile(plugin.jeTypesetFilePath);
+                plugin.JETypesetText = Util.readText(plugin.jeTypesetFilePath,"GBK");
+                plugin.BETypesetText = Util.readText(plugin.beTypesetFilePath,"GBK");
                 group.sendMessage("已完成重载");
             } catch (IOException e) {
                 group.sendMessage("重新加载配置文件时出现了异常\n" + e);
@@ -44,8 +44,8 @@ public class Reload extends CommandModel {
 
             try {
                 plugin.config = Config.getConfig(plugin.config.getPath());
-                plugin.JETypesetText = Util.readText(plugin.JETypesetFilePath,"GBK");
-                plugin.BETypesetText = Util.readText(plugin.BETypesetFilePath,"GBK");
+                plugin.JETypesetText = Util.readText(plugin.jeTypesetFilePath,"GBK");
+                plugin.BETypesetText = Util.readText(plugin.beTypesetFilePath,"GBK");
                 friend.sendMessage("已完成重载");
             } catch (IOException e) {
                 friend.sendMessage("重新加载配置文件时出现了异常\n" + e);

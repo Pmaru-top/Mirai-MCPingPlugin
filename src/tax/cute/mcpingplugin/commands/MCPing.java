@@ -4,7 +4,7 @@ import net.mamoe.mirai.contact.Friend;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.message.data.SingleMessage;
 import tax.cute.mcpingplugin.*;
-import tax.cute.mcpingplugin.Util.Util;
+import tax.cute.mcpingplugin.util.Util;
 import tax.cute.minecraftserverping.Punycode;
 import top.mrxiaom.miraiutils.CommandModel;
 import top.mrxiaom.miraiutils.CommandSender;
@@ -29,13 +29,8 @@ public class MCPing extends CommandModel {
         if (sender instanceof CommandSenderGroup) {
             CommandSenderGroup senderGroup = (CommandSenderGroup) sender;
             Group group = senderGroup.getGroup();
-            if (args[0].contentToString().equalsIgnoreCase("/mcping") || args.length != 1) {
+            if (args[0].contentToString().equalsIgnoreCase("/mcping") || args.length != 1 || args[0].contentToString().isEmpty()) {
                 group.sendMessage(Util.MENU);
-                return;
-            }
-
-            if (args[0].contentToString().isEmpty()) {
-                group.sendMessage("è¯·è¾“å…¥æœ‰æ•ˆhost");
                 return;
             }
 
@@ -51,7 +46,7 @@ public class MCPing extends CommandModel {
                 port = -1;
             }
 
-            //ä¸­æ–‡åŸŸåè½¬ç 
+            //ÖĞÎÄÓòÃû×ªÂë
             ip = Punycode.encodeURL(ip);
 
             sendMCPing(plugin, group, ip, port);
@@ -60,13 +55,8 @@ public class MCPing extends CommandModel {
         if (sender instanceof CommandSenderFriend) {
             CommandSenderFriend senderFriend = (CommandSenderFriend) sender;
             Friend friend = senderFriend.getFriend();
-            if (args[0].contentToString().equalsIgnoreCase("/mcping") || args.length != 1) {
+            if (args[0].contentToString().equalsIgnoreCase("/mcping") || args.length != 1 || args[0].contentToString().isEmpty()) {
                 friend.sendMessage(Util.MENU);
-                return;
-            }
-
-            if (args[0].contentToString().isEmpty()) {
-                friend.sendMessage("è¯·è¾“å…¥æœ‰æ•ˆhost");
                 return;
             }
 
@@ -82,7 +72,7 @@ public class MCPing extends CommandModel {
                 port = -1;
             }
 
-            //ä¸­æ–‡åŸŸåè½¬ç 
+            //ÖĞÎÄÓòÃû×ªÂë
             ip = Punycode.encodeURL(ip);
 
             sendMCPing(plugin, friend, ip, port);
@@ -103,7 +93,7 @@ public class MCPing extends CommandModel {
                 @Override
                 public void run() {
                     if (be.status == 0 && je.status == 0)
-                        group.sendMessage("æŸ¥è¯¢å¤±è´¥ è¯·æ£€æŸ¥æœåŠ¡å™¨æ˜¯å¦å¼€å¯");
+                        group.sendMessage("²éÑ¯Ê§°Ü Çë¼ì²é·şÎñÆ÷ÊÇ·ñ¿ªÆô");
                     je.stop();
                     be.stop();
                 }
@@ -121,7 +111,7 @@ public class MCPing extends CommandModel {
                 @Override
                 public void run() {
                     if (be.status == 0 && je.status == 0)
-                        friend.sendMessage("æŸ¥è¯¢å¤±è´¥ è¯·æ£€æŸ¥æœåŠ¡å™¨æ˜¯å¦å¼€å¯");
+                        friend.sendMessage("²éÑ¯Ê§°Ü Çë¼ì²é·şÎñÆ÷ÊÇ·ñ¿ªÆô");
                     je.stop();
                     be.stop();
                 }

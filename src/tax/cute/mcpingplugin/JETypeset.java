@@ -1,6 +1,6 @@
 package tax.cute.mcpingplugin;
 
-import tax.cute.mcpingplugin.Util.Util;
+import tax.cute.mcpingplugin.util.Util;
 import tax.cute.minecraftserverping.MCPing;
 
 import java.io.File;
@@ -11,9 +11,9 @@ import java.util.Base64;
 import java.util.List;
 
 public class JETypeset {
-    private String motdText;
-    private byte[] favicon_bytes;
-    private List<String> modList;
+    private final String motdText;
+    private final byte[] favicon_bytes;
+    private final List<String> modList;
 
     public JETypeset(String motdText,byte[] favicon_bytes, List<String> modList) {
         this.motdText = motdText;
@@ -54,7 +54,7 @@ public class JETypeset {
         }
 
         String motdText = typesetText
-                .replace(description, motd.getDescription())
+                .replace(description, Util.clearColorCode(motd.getDescription()))
                 .replace(version_name, motd.getVersion_name())
                 .replace(version_protocol, motd.getVersion_protocol())
                 .replace(online_players, String.valueOf(motd.getOnline_players()))
@@ -80,8 +80,7 @@ public class JETypeset {
     }
 
     public static void createTypesetFile(String path) throws IOException {
-        File file = new File(path);
-        if (file.exists()) return;
+        if (new File(path).isFile()) return;
         String text =
                 "\n%favicon" +
                         "\n[ √Ë ˆ ] %description" +

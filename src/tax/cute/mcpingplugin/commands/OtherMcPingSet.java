@@ -28,7 +28,7 @@ public class OtherMcPingSet extends CommandModel {
             Group group = senderGroup.getGroup();
             String cmd = args[1].contentToString();
             try {
-                plugin.config.setMcPingCmd(cmd);
+                plugin.config.setCmd(cmd);
                 group.sendMessage("已更改命令为" + cmd);
             } catch (IOException e) {
                 group.sendMessage("读写配置时出现异常" + e);
@@ -38,7 +38,7 @@ public class OtherMcPingSet extends CommandModel {
             Friend friend = senderFriend.getFriend();
             String cmd = args[1].contentToString();
             try {
-                plugin.config.setMcPingCmd(cmd);
+                plugin.config.setCmd(cmd);
                 friend.sendMessage("已更改命令为" + cmd);
             } catch (IOException e) {
                 friend.sendMessage("读写配置时出现异常" + e);

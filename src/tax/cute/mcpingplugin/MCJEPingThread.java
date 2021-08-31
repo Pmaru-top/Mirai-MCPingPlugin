@@ -6,8 +6,7 @@ import net.mamoe.mirai.message.data.ForwardMessageBuilder;
 import net.mamoe.mirai.message.data.Image;
 import net.mamoe.mirai.message.data.PlainText;
 import net.mamoe.mirai.utils.ExternalResource;
-import tax.cute.mcpingplugin.Util.Srv;
-import tax.cute.mcpingplugin.Util.Util;
+import tax.cute.mcpingplugin.util.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -46,7 +45,7 @@ public class MCJEPingThread extends Thread {
             try {
                 //获取信息并排版
                 typeset = JETypeset.getTypeset(host, port, plugin.JETypesetText);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 this.status = 0;
                 return;
             }
@@ -104,7 +103,7 @@ public class MCJEPingThread extends Thread {
             try {
                 //获取信息并排版
                 typeset = JETypeset.getTypeset(host, port, plugin.JETypesetText);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 this.status = 0;
                 return;
             }

@@ -1,5 +1,6 @@
 package tax.cute.mcpingplugin;
 
+import tax.cute.mcpingplugin.util.Util;
 import tax.cute.minecraftserverpingbe.MCBePing;
 
 import java.io.File;
@@ -8,13 +9,13 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 public class BETypeset {
-    private String motdText;
+    private final String motdText;
 
     public BETypeset(String motdText) {
         this.motdText = motdText;
     }
 
-    public static BETypeset getTypeset(String host,int port,String typesetText) throws IOException{
+    public static BETypeset getTypeset(String host,int port,String typesetText) throws Exception{
         final String description = "%description";
         final String default_mode = "%default_mode";
         final String version = "%version";
@@ -28,7 +29,7 @@ public class BETypeset {
         MCBePing motd = MCBePing.getMotd(host, port,2000);
 
         String motdText = typesetText
-                .replace(description,String.valueOf(motd.getDescription()))
+                .replace(description,String.valueOf(Util.clearColorCode(motd.getDescription())))
                 .replace(default_mode,String.valueOf(motd.getDefault_mode()))
                 .replace(version,String.valueOf(motd.getVersion()))
                 .replace(world_name,String.valueOf(motd.getWorld_name()))
@@ -45,8 +46,7 @@ public class BETypeset {
     }
 
     public static void createTypesetFile(String path) throws IOException{
-        File file = new File(path);
-        if(file.exists()) return;
+        if(new File(path).isFile()) return;
         String text =
                 "[ √Ë ˆ ] %description" +
                         "\n[ ∞Ê±æ ] %version(%protocol_num)" +

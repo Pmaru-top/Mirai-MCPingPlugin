@@ -4,7 +4,7 @@ import net.mamoe.mirai.contact.Friend;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.message.data.SingleMessage;
 import tax.cute.mcpingplugin.Plugin;
-import tax.cute.mcpingplugin.Util.Util;
+import tax.cute.mcpingplugin.util.Util;
 import top.mrxiaom.miraiutils.CommandModel;
 import top.mrxiaom.miraiutils.CommandSender;
 import top.mrxiaom.miraiutils.CommandSenderFriend;
@@ -32,7 +32,7 @@ public class Enable extends CommandModel {
                     this.plugin.config.setEnable(Boolean.parseBoolean(args[0].contentToString()));
                     group.sendMessage("已将enable设置为" + args[0]);
                 } else {
-                    group.sendMessage("意外的数据类型(需要boolean)");
+                    group.sendMessage("使用方法:/enable [true/false] 启用或不启用本插件");
                 }
             } catch (IOException e) {
                 group.sendMessage("读写配置时遇到了异常" + e);
@@ -48,7 +48,7 @@ public class Enable extends CommandModel {
                     this.plugin.config.setEnable(Boolean.parseBoolean(args[0].contentToString()));
                     friend.sendMessage("已将enable设置为" + args[0]);
                 } else {
-                    friend.sendMessage("意外的数据类型(需要boolean)");
+                    friend.sendMessage("使用方法:/enable [true/false] 启用或不启用本插件");
                 }
             } catch (IOException e) {
                 friend.sendMessage("读写配置时遇到了异常" + e);

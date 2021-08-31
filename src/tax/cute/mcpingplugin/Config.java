@@ -1,271 +1,215 @@
 package tax.cute.mcpingplugin;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import tax.cute.mcpingplugin.Util.Util;
+import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.Yaml;
+import tax.cute.mcpingplugin.util.Util;
 
 import java.io.*;
+import java.util.*;
 
 public class Config {
-    private static final String name = "[MCPing]";
-
-    private String path;
-    private JSONArray owner;
-    private JSONArray bindServerList;
-    private String enable;
-    private String mcPingCmd;
+    private final List<Long> owner;
+    private final List<Server> bindServers;
+    private boolean enable;
+    private String cmd;
+    private final String path;
 
     public Config(
-            String path,
-            JSONArray owner,
-            JSONArray bindServerList,
-            String enable,
-            String mcPingCmd
+            List<Long> owner,
+            List<Server> bindServers,
+            boolean enable,
+            String cmd,
+            String path
     ) {
-        this.path = path;
         this.owner = owner;
-        this.bindServerList = bindServerList;
+        this.bindServers = bindServers;
         this.enable = enable;
-        this.mcPingCmd = mcPingCmd;
+        this.cmd = cmd;
+        this.path = path;
     }
 
     public static Config getConfig(String path) throws IOException {
-        File file = new File(path);
-        //Create a configuration file when it is judged that the configuration file does not exist
-        if (!file.exists()) if (!createConfig(path)) System.err.println(name + "Create config failure");
+        if(!new File(path).isFile()) createConfig(path);
 
-        //initialization
-        JSONArray owner = new JSONArray();
-        String enable = "false";
-        String mcPingCmd = null;
-        JSONArray bindServer = new JSONArray();
+        InputStream in = new FileInputStream(path);
 
-        //Read config file text
-        String jsonStr = Util.readText(path);
-        JSONObject json = JSONObject.parseObject(jsonStr);
+        Map<String, Object> map = new Yaml().load(in);
+        in.close();
 
-        //Determine whether the configuration file is json
-        if (json == null) {
-            createConfig(path);
-            jsonStr = Util.readText(path);
-            json = JSONObject.parseObject(jsonStr);
-        }
-
-        JSONObject config = new JSONObject();
-
-        //Determine whether it is json, if not, it will be reset
-        if (json.containsKey("Config")) {
-            if (json.get("Config") instanceof JSONObject) {
-                config = json.getJSONObject("Config");
-            }
-        }
-
-        if (config.containsKey("Enable")) {
-            if (config.get("Enable") instanceof String) {
-                if (Util.isBoolean(config.getString("Enable"))) {
-                    enable = config.getString("Enable");
-                } else {
-                    System.err.println(name + "\"Config\\Enable\"Unexpected type");
+        //初始化是防止非这个类型的实例而空指针
+        List<Long> owner = new ArrayList<>();
+        if (map.get("Owner") instanceof List) {
+            List<Object> list = (List<Object>) map.get("Owner");
+            for (Object obj : list) {
+                if (obj instanceof Long) {
+                    owner.add((long) obj);
                 }
-            } else {
-                System.err.println(name + "\"Config\\Enable\"Unexpected type");
             }
-        } else {
-            System.err.println(name + "\"Config\\Enable\"Missing");
         }
 
-        if (config.containsKey("CMD")) {
-            if (config.get("CMD") instanceof String) {
-                mcPingCmd = config.getString("CMD");
-            } else {
-                System.err.println(name + "\"Config\\CMD\"Unexpected type");
-            }
-        } else {
-            System.err.println(name + "\"Config\\CMD\"Missing");
-        }
-
-        if (json.containsKey("Owner")) {
-            if (json.get("Owner") instanceof JSONArray) {
-                owner = json.getJSONArray("Owner");
-            } else {
-                System.err.println(name + "\"Owner\"Unexpected type");
-            }
-        } else {
-            System.err.println(name + "\"Owner\"Missing");
-        }
-
-        if (json.containsKey("BindServer")) {
-            if (json.get("BindServer") instanceof JSONArray) {
-                bindServer = json.getJSONArray("BindServer");
-            } else {
-                System.err.println(name + "\"BindServer\"Unexpected type");
-            }
-        } else {
-            System.err.println(name + "\"BindServer\"Missing");
-        }
-
-        return new Config(path, owner, bindServer, enable, mcPingCmd);
-    }
-
-    public static boolean createConfig(String path) {
-        try {
-            JSONObject json = new JSONObject();
-
-            JSONArray bindServer = new JSONArray();
-
-            JSONArray owner = new JSONArray();
-
-            JSONObject config = new JSONObject();
-            config.put("Enable", "true");
-            config.put("CMD", "/mcmotd");
-
-            json.put("Owner", owner);
-            json.put("BindServer", bindServer);
-            json.put("Config", config);
-
-            String jsonStr = JSON.toJSONString(json);
-
-            OutputStream out = new FileOutputStream(path);
-            out.write(jsonStr.getBytes());
-            out.flush();
-            out.close();
-        } catch (IOException e) {
-            File file = new File(path);
-            file.delete();
-            return false;
-        }
-        return true;
-    }
-
-    public void writeConfig() throws IOException {
-        JSONObject json = new JSONObject();
-        JSONObject config = new JSONObject();
-        config.put("Enable", this.enable);
-        config.put("CMD", this.mcPingCmd);
-
-        json.put("Owner", this.owner);
-        json.put("Config", config);
-        json.put("BindServer", this.bindServerList);
-
-        String jsonStr = JSON.toJSONString(json);
-
-        OutputStream out = new FileOutputStream(path);
-        out.write(jsonStr.getBytes());
-        out.flush();
-        out.close();
-    }
-
-    public boolean isEnable() {
-        return Boolean.parseBoolean(this.enable);
-    }
-
-    public String getPath() {
-        return this.path;
-    }
-
-    public String getMcPingCmd() {
-        return this.mcPingCmd;
-    }
-
-    public JSONArray getOwner() {
-        return this.owner;
-    }
-
-    public boolean isOwner(long qqNum) {
-        return this.owner.contains(String.valueOf(qqNum));
-    }
-
-    public JSONArray getBindServerList() {
-        return this.bindServerList;
-    }
-
-    public void setEnable(boolean args) throws IOException {
-        this.enable = String.valueOf(args);
-        writeConfig();
-    }
-
-    public void setMcPingCmd(String args) throws IOException {
-        this.mcPingCmd = args;
-        writeConfig();
-    }
-
-    public boolean addOwner(long qqNum) throws IOException {
-        if (isOwner(qqNum)) return false;
-        this.owner.add(String.valueOf(qqNum));
-        writeConfig();
-        return true;
-    }
-
-    public boolean removeOwner(long qqNum) throws IOException {
-        if (!isOwner(qqNum)) return false;
-        this.owner.remove(String.valueOf(qqNum));
-        writeConfig();
-        return true;
-    }
-
-    public JSONObject getServer(long groupNum) {
-        for (int i = 0; i < this.bindServerList.size(); i++) {
-            if (this.bindServerList.get(i) instanceof JSONObject) {
-                JSONObject server = this.bindServerList.getJSONObject(i);
-                if (server.containsKey("GroupNum")) {
-                    if (server.get("GroupNum") instanceof String) {
-                        if (Util.isNum(server.getString("GroupNum"))) {
-                            if (server.getString("GroupNum").equals(String.valueOf(groupNum))) {
-                                return this.bindServerList.getJSONObject(i);
-                            }
-                        }
+        List<Server> bindServers = new ArrayList<>();
+        if (map.get("bindServers") instanceof Map) {
+            Map<String, Map> bindServersMap = (Map) map.get("bindServers");
+            Set<String> set = bindServersMap.keySet();
+            if (set.size() > 0) {
+                for (String key : set) {
+                    Map<String, String> server = bindServersMap.get(key);
+                    if (Util.isNum(key) && server.get("Cmd") != null && server.get("Host") != null) {
+                        bindServers.add(new Server(Long.parseLong(key), server.get("Cmd"), server.get("Host")));
                     }
                 }
+            }
+        }
+
+        boolean enable = false;
+        if (map.get("Enable") instanceof Boolean) {
+            enable = (Boolean) map.get("Enable");
+        }
+
+        String cmd = "/mcmotd";
+        if (map.get("Enable") instanceof String) {
+            cmd = (String) map.get("Enable");
+        }
+
+        return new Config(owner, bindServers, enable, cmd, path);
+    }
+
+    static void createConfig(String path) throws IOException {
+        Map<String, Object> map = new HashMap<>();
+        map.put("Owner", new ArrayList<>());
+        map.put("bindServers", new HashMap<>());
+        map.put("Enable", true);
+        map.put("Cmd", "/mcmotd");
+
+        DumperOptions options = new DumperOptions();
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+
+        FileWriter writer = new FileWriter(path);
+        new Yaml().dump(map, writer);
+
+        writer.flush();
+        writer.close();
+    }
+
+    void saveConfig() throws IOException {
+        Map<String, Object> map = new HashMap<>();
+        map.put("Owner", owner);
+
+        Map<String, Map> bindServersMap = new HashMap<>();
+        for (Server server : bindServers) {
+            Map<String, String> data = new HashMap<>();
+            data.put("Cmd", server.getCmd());
+            data.put("Host", server.getHost());
+            bindServersMap.put(String.valueOf(server.getGroup()), data);
+        }
+        map.put("bindServers", bindServersMap);
+
+        map.put("Enable", enable);
+        map.put("Cmd", cmd);
+
+        DumperOptions options = new DumperOptions();
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+
+        FileWriter writer = new FileWriter(path);
+        new Yaml(options).dump(map, writer);
+
+        writer.flush();
+        writer.close();
+    }
+
+    public String getCmd() {
+        return cmd;
+    }
+
+    public List<Long> getOwner() {
+        return owner;
+    }
+
+    public List<Server> getBindServers() {
+        return bindServers;
+    }
+
+    public Server getServer(long group) {
+        if(!isBindServer(group))return null;
+        for (Server server : bindServers) {
+            if (server.getGroup() == group) {
+                return server;
             }
         }
         return null;
     }
 
-    public int getServerIndex(long groupNum) {
-        for (int i = 0; i < this.bindServerList.size(); i++) {
-            if (this.bindServerList.get(i) instanceof JSONObject) {
-                JSONObject server = this.bindServerList.getJSONObject(i);
-                if (server.containsKey("GroupNum")) {
-                    if (server.get("GroupNum") instanceof String) {
-                        if (Util.isNum(server.getString("GroupNum"))) {
-                            if (server.getString("GroupNum").equals(String.valueOf(groupNum))) {
-                                return i;
-                            }
-                        }
-                    }
-                }
+    public boolean isEnable() {
+        return enable;
+    }
+
+    public void setCmd(String cmd) throws IOException {
+        this.cmd = cmd;
+        saveConfig();
+    }
+
+    public void setEnable(boolean enable) throws IOException {
+        this.enable = enable;
+        saveConfig();
+    }
+
+    public void addOwner(long num) throws IOException {
+        if (this.owner.contains(num)) return;
+        this.owner.add(num);
+        saveConfig();
+    }
+
+    public void removeOwner(long num) throws IOException {
+        if (!this.owner.contains(num)) return;
+        this.owner.remove(num);
+        saveConfig();
+    }
+
+    public boolean addBindServer(Server server) throws IOException {
+        if(isBindServer(server.getGroup())) return false;
+        this.bindServers.add(server);
+        saveConfig();
+        return true;
+    }
+
+    public boolean removeBindServer(long group) throws IOException {
+        if(!isBindServer(group)) return false;
+        for (Server server : bindServers) {
+            if (server.getGroup() == group) {
+                bindServers.remove(server);
+                saveConfig();
+                return true;
             }
         }
-        return -1;
+        return false;
     }
 
-    public boolean addBindServer(long groupNum, String cmd, String host) throws IOException {
-        if (getServer(groupNum) != null) {
-            return false;
-        }
-
-        JSONObject server = new JSONObject();
-        server.put("GroupNum", String.valueOf(groupNum));
-        server.put("CMD", cmd);
-        server.put("Host", host);
-        this.bindServerList.add(server);
-        writeConfig();
-        return true;
-    }
-
-    public boolean removeBindServer(long groupNum) throws IOException {
-        int index = getServerIndex(groupNum);
-        if (index == -1) return false;
-        this.bindServerList.remove(index);
-        writeConfig();
-        return true;
-    }
-
-    public int removeAllBindServer() throws IOException{
-        int count = this.bindServerList.size();
-        this.bindServerList.clear();
-        writeConfig();
+    public int clearBindServer() throws IOException{
+        int count = bindServers.size();
+        bindServers.clear();
+        saveConfig();
         return count;
+    }
+
+    public boolean isBindServer(long group) {
+        for (Server server : bindServers) {
+            if (server.getGroup() == group) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isOwner(long num) {
+        for (Long i : owner) {
+            if (i == num) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String getPath() {
+        return path;
     }
 }

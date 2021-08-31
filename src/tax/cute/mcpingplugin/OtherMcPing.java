@@ -21,7 +21,7 @@ public class OtherMcPing extends SimpleListenerHost {
         if(!plugin.config.isEnable()) return ListeningStatus.LISTENING;
         Group group = event.getGroup();
         String msg = event.getMessage().contentToString();
-        String cmd = plugin.config.getMcPingCmd();
+        String cmd = plugin.config.getCmd();
         if(!msg.toLowerCase().startsWith(cmd)) return ListeningStatus.LISTENING;
         String host = msg.split(" ")[1];
 
@@ -46,7 +46,7 @@ public class OtherMcPing extends SimpleListenerHost {
         if(!plugin.config.isEnable()) return ListeningStatus.LISTENING;
         Friend friend = event.getFriend();
         String msg = event.getMessage().contentToString();
-        String cmd = plugin.config.getMcPingCmd();
+        String cmd = plugin.config.getCmd();
         if(!msg.toLowerCase().startsWith(cmd)) return ListeningStatus.LISTENING;
         String host = msg.split(" ")[1];
 

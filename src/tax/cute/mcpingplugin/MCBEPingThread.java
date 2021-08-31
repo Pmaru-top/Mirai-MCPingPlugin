@@ -29,7 +29,7 @@ public class MCBEPingThread extends Thread {
         BETypeset typeset;
         try {
             typeset = BETypeset.getTypeset(host,port,plugin.BETypesetText);
-        } catch (IOException e) {
+        } catch (Exception e) {
             status = 0;
             return;
         }
