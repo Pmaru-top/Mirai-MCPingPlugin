@@ -51,13 +51,18 @@ public class Util {
     }
 
     public static String clearColorCode(String text) {
-        if(text == null) return null;
-        if(!text.contains("¡ì")) return text;
+        if (text == null) return null;
+        if (!text.contains("¡ì")) return text;
 
         while (text.contains("¡ì")) {
             int index = text.indexOf("¡ì");
-            text = text.replace(text.substring(index,index + 2),"");
+            if (index + 2 > text.length()) {
+                break;
+            }
+            text = text.replace(text.substring(index, index + 2), "");
         }
+        text = text.replace("¡ì","");
         return text;
     }
+
 }
