@@ -3,18 +3,20 @@
 
 这是一个做的很屑的 [`Mirai`](https://github.com/mamoe/mirai) 机器人插件
 
-本`README`适用于`MCPing2.0-Beta.3`
+现在下载[MCPingV2.1(需自行载入库)](https://github.com/MX233/Mirai-MCPingPlugin/releases/download/v2.1/MCPingV2.1.jar) 或 
+[MCPingV2.1-lib(只需拷贝进plugins)](https://github.com/MX233/Mirai-MCPingPlugin/releases/download/v2.1/MCPingV2.1-lib.jar)
+
+本`README`适用于`MCPing2.1`
 
 # 主要功能
 - `获取Minecraft服务器信息`
 
-### 笔者的一些话
-翻阅1.0源码可以发现 一堆命令堆在一个类里 非常乱
-为此笔者使用了[MrXiaoM/MiraiUtils](https://github.com/MrXiaoM/MiraiUtils) 的命令系统( 非常感谢大佬开源 )
-并
-
-重制发布了`MCPing2.0`
 ### 注意事项
+
+本插件的语法和编译版本为`OracleJdk11` 
+
+即你的java版本不能低于`OracleJdk11`  如有需要可[获取本项目](https://github.com/MX233/Mirai-MCPingPlugin) 重新编译
+
 如果你使用`中国移动家宽网络`请务必更换`更好的DNS`
 
 (比如`8.8.8.8` `114.114.114.114`)
@@ -70,9 +72,8 @@ PS:支持`Srv`和`中文域名`
      * `list` 获取绑定列表
      * `add` `<群号> ` `命令` `域名/IP` 绑定一个服务器到群
      * `remove` `<群号>` 解绑一个群
-     * `remove all` 解绑所有群
      
-     PS:可用"this"代指当前群
+     PS:可用"this"代指当前群,解绑时"all"可代指所有群
      
      比如你在群号为114514的群发送:/bindServer add this /status mc.hypixel.net
      
@@ -83,11 +84,15 @@ PS:支持`Srv`和`中文域名`
      这点非常适合服主架设在自己的玩家群方便查询
          
      ## 用到的依赖
-     [`MX233/MinecraftServerPing`](https://github.com/MX233/MinecraftServerPing/releases/tag/MinecraftServerPingV1.0)
+     [`MX233/MinecraftServerPing`](https://github.com/MX233/MinecraftServerPing/releases/tag/MinecraftServerPingV1.0) MCJEMOTD获取库
      
-     [`MX233/MinecraftServerPing-BE`](https://github.com/MX233/MinecraftServerPing-BE)
+     [`MX233/MinecraftServerPing-BE`](https://github.com/MX233/MinecraftServerPing-BE) MCBEMOTD获取库
      
-     [`alibaba/fastjson`](https://github.com/alibaba/fastjson)
+     [`alibaba/fastjson`](https://github.com/alibaba/fastjson) 本插件不依赖,但协议库依赖
+     
+     [`TheFatCat/MiraiUtils`](https://github.com/MrXiaoM/MiraiUtils) 非常好的命令系统
+     
+     `snakeyaml` 我从spigot里拷贝出来的,就不知道出处了
      
      如果你不会寻找和调用这些`lib` 请下载带依赖版本(命名带-lib)
 ***
